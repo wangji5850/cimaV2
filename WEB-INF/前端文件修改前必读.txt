@@ -1,0 +1,59 @@
+版本号生成地址
+http://www.xuecima.com/test
+http://localhost:8080/cimaV2/test
+
+
+ 'dev/css/website.css'  'dev/js/website.js'为合并后的文件，不能直接修改；
+'*.min.css' '*.min.js'为在线使用的文件，不能直接修改。
+
+文件合并、生成规则：
+concat: {
+            css: {
+                src: 'dev/css/include/*.css',
+                dest: 'dev/css/website.css'
+            },
+            js: {
+                src: ['dev/js/include/*.js'],
+                dest: 'dev/js/website.js'
+            }
+        },
+        cssmin: {
+            options: {
+                keepSpecialComments: 0,
+                banner: '/*! <%= pkg.name %> v<%= pkg.version %> <%= grunt.template.today("yyyy-mm-yy") %> by mark */\n'
+            },
+            css: {
+               files: [{
+                    expand: true,
+                    cwd: 'dev/css/',
+                    src: ['*.css'],
+                    dest: 'style/',
+                    ext: '.min.css'
+                }]
+            }
+        },
+        uglify: {
+            options: {
+               // banner: '/*! <%= pkg.name %> v<%= pkg.version %> <%= grunt.template.today("yyyy-mm-yy") %> by mark */\n',
+                sourceMap: false,
+                compress:{
+                    global_defs:{
+                        "DEBUG":false
+                    },
+                    dead_code:true
+                }
+            },
+            build: {
+                // 动态文件映射，
+                // 当任务运行时会自动在 "src/bin/" 目录下查找 "**/*.js" 并构建文件映射，
+                // 添加或删除文件时不需要更新 Gruntfile。
+                files: [{
+                    expand: true, // 启用动态扩展
+                    cwd: 'dev/js/', // 源文件匹配都相对此目录
+                    src: ['*.js'], // 匹配模式
+                    dest: 'js/', // 目标路径前缀
+                    ext: '.min.js', // 目标文件路径中文件的扩展名
+                    extDot: 'last' // 扩展名始于文件名的第一个点号
+                }]
+            }
+        }

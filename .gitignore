@@ -1,0 +1,5 @@
+#svn ignore
+.svn/
+WEB-INF/classes
+WEB-INF/lib
+WEB-INF/node
